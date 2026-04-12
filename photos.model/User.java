@@ -1,8 +1,10 @@
 package photos; 
 
+import java.util.*; 
+
+
 public class User{ 
-    private String username; 
-
-
-
+    String username; 
+    List<Album> user_albums; 
+    List<String> tagTypes; 
 }
