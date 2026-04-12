@@ -1,6 +1,6 @@
 package photos.model;
 
-import java.util.Objects;
+import java.util.*; 
 import java.io.Serializable; 
 
 public abstract class Tag{
