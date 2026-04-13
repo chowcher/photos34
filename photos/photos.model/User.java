@@ -98,15 +98,85 @@ public class User implements Serializable{
             return false;
         }
 
-        return albums.setName(newName);
+        albums.setName(newName);
         return true;
     }
 
-/*
-    add getMultiTagTypes(), getSingleTagTypes(),
-    add tagType(), removeTagType(), getPhotos(),
-    equals(), a hashcode func, 
-*/
+    public List<String> getMultiTagTypes() {
+        return multiTagTypes;
+    }
+
+    public List<String> getSingleTagTypes() {
+        return singleTagTypes;
+    }
+
+    public boolean addTagType(String typeName, boolean single) {
+        if(typeName==null || typeName.isBlank()) {
+            throw new IllegalArgumentException("Tag type cannot be blank.");
+        }
+        String typeNormalized = typeName.trim().toLowerCase();
+
+        for (String type:singleTagTypes) {
+            if (type.equalsIgnoreCase(typeNormalized)) {
+                return false;
+            }
+        }
+        for (String type:multiTagTypes) {
+            if (type.equalsIgnoreCase(typeNormalized)) {
+                return false;
+            }
+        }
+
+        if (!single) {
+            multiValueTagTypes.add(normalized);
+        }
+        multiTagTypes.add(typeNormalized);
+        if (single) {
+            singleValueTagTypes.add(normalized);
+        }
+        return true;
+    }
+
+    public boolean removeTagType(String typeName) {
+        if(typeName == null || typeName.isBlank()) {
+            return false;
+        }
+        boolean isRemoved = tagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+        singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+        return isRemoved;
+    }
+
+    public Set<Photo> getPhotos() {
+        Set<Photo> photoList = new HashSet<>();
+        for(Album album:albums) {
+            photoList.addAll(album.getPhotos());
+        }
+        return photoList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) {
+            return true;
+        }
+
+        if (! (o instanceof User)) {
+            return false;
+        }
+
+        User eq = (User) o;
+        return this.username.equalsIgnoreCase(eq.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return username.toLowerCase().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 
 }
 
