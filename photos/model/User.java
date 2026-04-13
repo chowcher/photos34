@@ -98,7 +98,7 @@ public class User implements Serializable{
             return false;
         }
 
-        albums.setName(newName);
+        album.setName(newName);
         return true;
     }
 
