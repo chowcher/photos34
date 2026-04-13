@@ -128,11 +128,11 @@ public class User implements Serializable{
         }
 
         if (!single) {
-            multiValueTagTypes.add(normalized);
+            multiTagTypes.add(normalized);
         }
         multiTagTypes.add(typeNormalized);
         if (single) {
-            singleValueTagTypes.add(normalized);
+            singleTagTypes.add(normalized);
         }
         return true;
     }
@@ -141,7 +141,13 @@ public class User implements Serializable{
         if(typeName == null || typeName.isBlank()) {
             return false;
         }
-        boolean isRemoved = tagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+
+
+        boolean isRemoved = singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+        singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+        if (isRemoved) {return isRemoved;}
+
+        isRemoved = multiTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
         singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
         return isRemoved;
     }

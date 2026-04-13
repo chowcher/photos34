@@ -59,8 +59,16 @@ public class UserManager implements Serializable {
     }
 
     public boolean removeUser(String username) { 
-        //to add
-        return false;
+        if (username==null||username.isBlank()){
+            return false;
+        }
+        String norm = username.trim().toLowerCase();
+
+        if(norm.equals("admin")||norm.equals("stock")) {
+            return false;
+        }
+
+        return users.removeIf(u->u.getUsername().equalsIgnoreCase(norm));
     }
 
     public User getUser(String username) {
