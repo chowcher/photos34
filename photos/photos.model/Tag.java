@@ -3,7 +3,7 @@ package photos.model;
 import java.util.*; 
 import java.io.Serializable; 
 
-public abstract class Tag{
+public class Tag implements Serializable{
     
     private static final long serialVersionUID = 1L; 
     
