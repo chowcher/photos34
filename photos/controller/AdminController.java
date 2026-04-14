@@ -17,6 +17,14 @@ import photos.model.UserManager;
 
 import java.util.Optional;
 
+/**
+ * Controller for the admin subsystem (admin.fxml).
+ * Allows the admin user to list, create, and delete non-admin users.
+ * Admin does not have access to albums or photos.
+ *
+ * @author Charles Eshelman
+ * @author Ryan Lilly
+ */
 public class AdminController {
 
     @FXML private ListView<User> userListView;
@@ -24,7 +32,10 @@ public class AdminController {
     private UserManager manager;
     private ObservableList<User> observableUsers;
 
-    
+    /**
+     * Initializes the controller after the FXML is loaded.
+     * Populates the user list from UserManager.
+     */
     @FXML
     public void initialize() {
         manager = UserManager.getInstance();
@@ -32,7 +43,11 @@ public class AdminController {
         userListView.setItems(observableUsers);
     }
 
-    
+    /**
+     * Handles the Create User button.
+     * Prompts for a username via TextInputDialog and adds the user
+     * if the name is valid and not already taken.
+     */
     @FXML
     private void handleCreateUser() {
         TextInputDialog dialog = new TextInputDialog();
@@ -56,7 +71,10 @@ public class AdminController {
         });
     }
 
-    
+    /**
+     * Handles the Delete User button.
+     * Confirms deletion with the admin before removing the selected user.
+     */
     @FXML
     private void handleDeleteUser() {
         User selected = userListView.getSelectionModel().getSelectedItem();
@@ -83,14 +101,19 @@ public class AdminController {
         }
     }
 
-    
+    /**
+     * Handles the Logout button.
+     * Saves data and returns to the login screen.
+     */
     @FXML
     private void handleLogout() {
         DataManager.saveUsers(manager);
         loadLoginScene();
     }
 
-    
+    /**
+     * Navigates back to the login screen.
+     */
     private void loadLoginScene() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -105,7 +128,11 @@ public class AdminController {
         }
     }
 
-    
+    /**
+     * Displays an error Alert with the given message.
+     *
+     * @param message the message to display
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Admin Error");

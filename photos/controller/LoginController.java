@@ -10,12 +10,23 @@ import javafx.stage.Stage;
 import photos.model.User;
 import photos.model.UserManager;
 
-
+/**
+ * Controller for the login screen (login.fxml).
+ * Validates the username and routes the user to the appropriate
+ * subsystem: admin panel or the album list view.
+ *
+ * @author Charles Eshelman
+ * @author Ryan Lilly
+ */
 public class LoginController {
 
     @FXML private TextField usernameField;
 
-    
+    /**
+     * Handles the Login button action.
+     * Reads the username field, looks up the user in UserManager,
+     * and loads the appropriate scene. Shows an Alert on failure.
+     */
     @FXML
     private void handleLogin() {
         String username = usernameField.getText().trim().toLowerCase();
@@ -41,7 +52,14 @@ public class LoginController {
         loadScene("/photos/view/albumList.fxml", user);
     }
 
-    
+    /**
+     * Loads a new scene into the primary stage.
+     * Passes the logged-in User to the destination controller
+     * if the controller implements user injection via setUser().
+     *
+     * @param fxmlPath path to the FXML resource
+     * @param user     the User to pass, or null for admin
+     */
     private void loadScene(String fxmlPath, User user) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -65,7 +83,11 @@ public class LoginController {
         }
     }
 
-    
+    /**
+     * Displays an error Alert with the given message.
+     *
+     * @param message the error message to display
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Login Error");

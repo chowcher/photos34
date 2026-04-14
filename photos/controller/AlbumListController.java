@@ -18,7 +18,14 @@ import photos.model.UserManager;
 
 import java.util.Optional;
 
-
+/**
+ * Controller for the album list screen (albumList.fxml).
+ * Displays all albums belonging to the logged-in user and
+ * allows creating, deleting, renaming, opening, and searching.
+ *
+ * @author Charles Eshleman
+ * @author Ryan Lilly
+ */
 public class AlbumListController {
 
     @FXML private ListView<Album> albumListView;
@@ -26,19 +33,30 @@ public class AlbumListController {
     private User currentUser;
     private ObservableList<Album> observableAlbums;
 
-    
+    /**
+     * Called by LoginController after loading this scene.
+     * Sets the current user and populates the album list.
+     *
+     * @param user the logged-in user
+     */
     public void setUser(User user) {
         this.currentUser = user;
         observableAlbums = FXCollections.observableArrayList(currentUser.getAlbums());
         albumListView.setItems(observableAlbums);
     }
 
-   
+    /**
+     * Refreshes the observable list from the user's current album data.
+     * Called after any mutation to keep the ListView in sync.
+     */
     private void refreshList() {
         observableAlbums.setAll(currentUser.getAlbums());
     }
 
-    
+    /**
+     * Handles the Create Album button.
+     * Prompts for a name and creates a new empty album.
+     */
     @FXML
     private void handleCreateAlbum() {
         TextInputDialog dialog = new TextInputDialog();
@@ -62,7 +80,10 @@ public class AlbumListController {
         });
     }
 
-    
+    /**
+     * Handles the Delete Album button.
+     * Confirms deletion then removes the selected album.
+     */
     @FXML
     private void handleDeleteAlbum() {
         Album selected = albumListView.getSelectionModel().getSelectedItem();
@@ -84,7 +105,10 @@ public class AlbumListController {
         }
     }
 
-   
+    /**
+     * Handles the Rename Album button.
+     * Prompts for a new name and renames the selected album.
+     */
     @FXML
     private void handleRenameAlbum() {
         Album selected = albumListView.getSelectionModel().getSelectedItem();
@@ -114,7 +138,10 @@ public class AlbumListController {
         });
     }
 
-    
+    /**
+     * Handles the Open Album button.
+     * Loads the album view for the selected album.
+     */
     @FXML
     private void handleOpenAlbum() {
         Album selected = albumListView.getSelectionModel().getSelectedItem();
@@ -125,7 +152,10 @@ public class AlbumListController {
         loadAlbumScene(selected);
     }
 
-   
+    /**
+     * Handles double-clicking an album in the list.
+     * Opens the selected album.
+     */
     @FXML
     private void handleAlbumDoubleClick() {
         Album selected = albumListView.getSelectionModel().getSelectedItem();
@@ -134,7 +164,10 @@ public class AlbumListController {
         }
     }
 
-   
+    /**
+     * Handles the Search button.
+     * Loads the search screen for the current user.
+     */
     @FXML
     private void handleSearch() {
         try {
@@ -153,7 +186,10 @@ public class AlbumListController {
         }
     }
 
-    
+    /**
+     * Handles the Logout button.
+     * Saves data and returns to the login screen.
+     */
     @FXML
     private void handleLogout() {
         DataManager.saveUsers(UserManager.getInstance());
@@ -170,7 +206,11 @@ public class AlbumListController {
         }
     }
 
-    
+    /**
+     * Loads the album view scene for the given album.
+     *
+     * @param album the album to open
+     */
     private void loadAlbumScene(Album album) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -189,7 +229,11 @@ public class AlbumListController {
         }
     }
 
-    
+    /**
+     * Displays an error Alert with the given message.
+     *
+     * @param message the message to display
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
