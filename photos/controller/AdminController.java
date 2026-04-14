@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import photos.model.DataManager;
 import photos.model.User;
 import photos.model.UserManager;
-
 import java.util.Optional;
 
 /**
