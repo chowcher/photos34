@@ -12,6 +12,16 @@ public class User implements Serializable{
     private final List<String> multiTagTypes;
     private final List<String> singleTagTypes;
 
+    /**
+     * initializes new user object 
+     * @param username sets name of user
+     * initializes list for single and multi tag types
+     * adds location and person tag
+     * initializes new list for albums
+     */
+
+
+
     public User(String username){
         if(username == null || username.isBlank()){
             throw new IllegalArgumentException("Username cannot be null or blank");

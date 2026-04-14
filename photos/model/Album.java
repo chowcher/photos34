@@ -15,6 +15,14 @@ public class Album implements Serializable {
     String album_name; 
     ArrayList<Photo> album_photos; 
 
+    /**
+     * 
+     * @param name sets name of album
+     * list is initialized to store photos
+     * @throws IllegalArgumentException if album name is not provided
+     *
+     */
+
     public Album(String name){
         if(name==null || name.isBlank()) {
             throw new IllegalArgumentException("Album name cannot be blank");
