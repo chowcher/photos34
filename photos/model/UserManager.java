@@ -22,11 +22,11 @@ public class UserManager implements Serializable {
             Album stockAlbum = new Album("stock");
 
             String[] stockFiles = { //TODO: Add stock photos
-                "data/stock1.jpg",
-                "data/stock2.jpg",
-                "data/stock3.jpg",
-                "data/stock4.jpg",
-                "data/stock5.jpg",
+                "data/Unknown.jpeg",
+                "data/Unknown-1.jpeg",
+                "data/Unknown-2.jpeg",
+                "data/Unknown-3.jpeg",
+                "data/Unknown-4.jpeg",
             };
 
             for (String path : stockFiles){
