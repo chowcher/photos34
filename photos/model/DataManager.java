@@ -39,7 +39,7 @@ public class DataManager{
         }
 
         UserManager.setInstance(manager);
-        return manager; 
+        return manager;
     }
 
     

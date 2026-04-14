@@ -3,6 +3,7 @@ package photos.model;
 import java.util.*; 
 import java.io.Serializable; 
 import java.io.File; 
+import java.text.SimpleDateFormat;
 
 
 public class Photo implements Serializable {
@@ -26,12 +27,12 @@ public class Photo implements Serializable {
 
         this.filePath = filePath; 
         caption = ""; 
-        tags = new List<Tag>(); 
+        tags = new ArrayList<Tag>(); 
 
         // last modified time - captures time of insertion
         long millis = new File(filePath).lastModified(); 
         captureDate = Calendar.getInstance(); 
-        capture.setTimeInMillis(millis); 
+        captureDate.setTimeInMillis(millis); 
         captureDate.set(Calendar.MILLISECOND, 0); 
     }
 

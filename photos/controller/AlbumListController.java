@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import photos.model.Album;
 import photos.model.DataManager;
@@ -19,12 +21,7 @@ import photos.model.UserManager;
 import java.util.Optional;
 
 /**
- * Controller for the album list screen (albumList.fxml).
- * Displays all albums belonging to the logged-in user and
- * allows creating, deleting, renaming, opening, and searching.
- *
- * @author Charles Eshleman
- * @author Ryan Lilly
+ * @author Charles Eshelman and Ryan Lilly
  */
 public class AlbumListController {
 
@@ -34,10 +31,8 @@ public class AlbumListController {
     private ObservableList<Album> observableAlbums;
 
     /**
-     * Called by LoginController after loading this scene.
-     * Sets the current user and populates the album list.
-     *
-     * @param user the logged-in user
+     * Sets the active user and populates the album {@link ListView}.
+     * @param user the logged-in {@link User}
      */
     public void setUser(User user) {
         this.currentUser = user;
@@ -46,16 +41,18 @@ public class AlbumListController {
     }
 
     /**
-     * Refreshes the observable list from the user's current album data.
-     * Called after any mutation to keep the ListView in sync.
+     * Updates the list to the user's current album data.
+     * Called after every time you create, rename, and delete 
+     * to keep the {@link ListView} in sync.
      */
     private void refreshList() {
         observableAlbums.setAll(currentUser.getAlbums());
     }
 
     /**
-     * Handles the Create Album button.
-     * Prompts for a name and creates a new empty album.
+     * Handles the create album button.
+     * Prompts for a name, creates a new {@link Album}, 
+     * and adds it to the user's collection.
      */
     @FXML
     private void handleCreateAlbum() {
@@ -81,8 +78,7 @@ public class AlbumListController {
     }
 
     /**
-     * Handles the Delete Album button.
-     * Confirms deletion then removes the selected album.
+     * Handles the delete Album button.
      */
     @FXML
     private void handleDeleteAlbum() {
@@ -106,8 +102,7 @@ public class AlbumListController {
     }
 
     /**
-     * Handles the Rename Album button.
-     * Prompts for a new name and renames the selected album.
+     * Handles the rename Album button.
      */
     @FXML
     private void handleRenameAlbum() {
@@ -139,8 +134,8 @@ public class AlbumListController {
     }
 
     /**
-     * Handles the Open Album button.
-     * Loads the album view for the selected album.
+     * Handles the open button.
+     * Loads the album scene for the given album.
      */
     @FXML
     private void handleOpenAlbum() {
@@ -153,26 +148,28 @@ public class AlbumListController {
     }
 
     /**
-     * Handles double-clicking an album in the list.
+     * Handles mouse clicks on the album {@link ListView}.
      * Opens the selected album.
+     * @param event the mouse event from the ListView
      */
     @FXML
-    private void handleAlbumDoubleClick() {
-        Album selected = albumListView.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            loadAlbumScene(selected);
+    private void handleAlbumDoubleClick(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+            Album selected = albumListView.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                loadAlbumScene(selected);
+            }
         }
     }
 
     /**
-     * Handles the Search button.
-     * Loads the search screen for the current user.
+     * Handles the search photos button.
      */
     @FXML
     private void handleSearch() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/photos/view/search.fxml"));
+                    getClass().getResource("/photos/view/search.fxml"));
             Parent root = loader.load();
 
             SearchController controller = loader.getController();
@@ -180,6 +177,7 @@ public class AlbumListController {
 
             Stage stage = (Stage) albumListView.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Search Photos");
             stage.show();
         } catch (Exception e) {
             showAlert("Failed to open search.");
@@ -187,15 +185,14 @@ public class AlbumListController {
     }
 
     /**
-     * Handles the Logout button.
-     * Saves data and returns to the login screen.
+     * Handles logout button.
      */
     @FXML
     private void handleLogout() {
         DataManager.saveUsers(UserManager.getInstance());
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/photos/view/login.fxml"));
+                    getClass().getResource("/photos/view/login.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) albumListView.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -207,14 +204,13 @@ public class AlbumListController {
     }
 
     /**
-     * Loads the album view scene for the given album.
-     *
-     * @param album the album to open
+     * Loads the album scene.
+     * @param album the {@link Album} to open
      */
     private void loadAlbumScene(Album album) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/photos/view/album.fxml"));
+                    getClass().getResource("/photos/view/album.fxml"));
             Parent root = loader.load();
 
             AlbumController controller = loader.getController();
@@ -230,9 +226,8 @@ public class AlbumListController {
     }
 
     /**
-     * Displays an error Alert with the given message.
-     *
-     * @param message the message to display
+     * Displays an error {@link Alert} with the given message.
+     * @param message the error text to display
      */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

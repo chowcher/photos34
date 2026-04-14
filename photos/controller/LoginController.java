@@ -11,21 +11,17 @@ import photos.model.User;
 import photos.model.UserManager;
 
 /**
- * Controller for the login screen (login.fxml).
- * Validates the username and routes the user to the appropriate
- * subsystem: admin panel or the album list view.
- *
- * @author Charles Eshelman
- * @author Ryan Lilly
+ * @author Charles Eshelman and Ryan Lilly
  */
 public class LoginController {
 
     @FXML private TextField usernameField;
 
     /**
-     * Handles the Login button action.
-     * Reads the username field, looks up the user in UserManager,
-     * and loads the appropriate scene. Shows an Alert on failure.
+     * Handles login button.
+     * Trims and lowercases the username, looks it up in
+     * {@link UserManager}, and loads the scene that fits based on those results.
+     * Displays an {@link Alert} if the username is blank or not found.
      */
     @FXML
     private void handleLogin() {
@@ -53,17 +49,16 @@ public class LoginController {
     }
 
     /**
-     * Loads a new scene into the primary stage.
-     * Passes the logged-in User to the destination controller
-     * if the controller implements user injection via setUser().
+     * Loads a new scene.
+     * If the destination controller is an {@link AlbumListController},
      *
-     * @param fxmlPath path to the FXML resource
-     * @param user     the User to pass, or null for admin
+     * @param fxmlPath the classpath-relative path to the FXML resource
+     * @param user     the authenticated User, or {@code null} for admin
      */
     private void loadScene(String fxmlPath, User user) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource(fxmlPath));
+                    getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
             if (user != null) {
@@ -84,9 +79,8 @@ public class LoginController {
     }
 
     /**
-     * Displays an error Alert with the given message.
-     *
-     * @param message the error message to display
+     * Displays an error {@link Alert} with the message parameter.
+     * @param message the error text to display
      */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

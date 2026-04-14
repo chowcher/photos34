@@ -18,12 +18,7 @@ import photos.model.UserManager;
 import java.util.Optional;
 
 /**
- * Controller for the admin subsystem (admin.fxml).
- * Allows the admin user to list, create, and delete non-admin users.
- * Admin does not have access to albums or photos.
- *
- * @author Charles Eshelman
- * @author Ryan Lilly
+ * @author Charles Eshelman and Ryan Lilly
  */
 public class AdminController {
 
@@ -34,7 +29,8 @@ public class AdminController {
 
     /**
      * Initializes the controller after the FXML is loaded.
-     * Populates the user list from UserManager.
+     * Retrieves the {@link UserManager} instance and populates
+     * the user {@link ListView} with all registered users.
      */
     @FXML
     public void initialize() {
@@ -44,9 +40,9 @@ public class AdminController {
     }
 
     /**
-     * Handles the Create User button.
-     * Prompts for a username via TextInputDialog and adds the user
-     * if the name is valid and not already taken.
+     * Handles Create User button.
+     * Prompts admin for new username with {@link TextInputDialog}.
+     * Doesn't allow blank names, admin, stock, or duplicates.
      */
     @FXML
     private void handleCreateUser() {
@@ -73,7 +69,7 @@ public class AdminController {
 
     /**
      * Handles the Delete User button.
-     * Confirms deletion with the admin before removing the selected user.
+     * Confirms with {@link Alert}.
      */
     @FXML
     private void handleDeleteUser() {
@@ -87,7 +83,7 @@ public class AdminController {
         confirm.setTitle("Delete User");
         confirm.setHeaderText(null);
         confirm.setContentText(
-            "Delete user '" + selected.getUsername() + "'? This cannot be undone.");
+                "Delete user '" + selected.getUsername() + "'? This cannot be undone.");
 
         Optional<ButtonType> response = confirm.showAndWait();
         if (response.isPresent() && response.get() == ButtonType.OK) {
@@ -102,22 +98,14 @@ public class AdminController {
     }
 
     /**
-     * Handles the Logout button.
-     * Saves data and returns to the login screen.
+     * Handles logout button, saves data to disk, returns to login screen.
      */
     @FXML
     private void handleLogout() {
         DataManager.saveUsers(manager);
-        loadLoginScene();
-    }
-
-    /**
-     * Navigates back to the login screen.
-     */
-    private void loadLoginScene() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/photos/view/login.fxml"));
+                    getClass().getResource("/photos/view/login.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) userListView.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -129,9 +117,8 @@ public class AdminController {
     }
 
     /**
-     * Displays an error Alert with the given message.
-     *
-     * @param message the message to display
+     * Displays an error {@link Alert} with the given message.
+     * @param message the error text to display
      */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -1,7 +1,7 @@
 package photos.model;
 
+import java.io.Serializable;
 import java.util.*; 
-import java.io.Serializable; 
 
 public class Tag implements Serializable{
     
@@ -52,7 +52,7 @@ public class Tag implements Serializable{
 
     @Override
     public int hashCode(){
-        return Objects.has(name.toLowerCase(), value.toLowerCase()); 
+        return Objects.hash(name.toLowerCase(), value.toLowerCase()); 
     }
 
     @Override

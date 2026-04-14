@@ -58,6 +58,10 @@ public class UserManager implements Serializable {
         return newUser;
     }
 
+    public static void setInstance(UserManager manager) {
+        instance = manager;
+    }
+
     public boolean removeUser(String username) { 
         if (username==null||username.isBlank()){
             return false;

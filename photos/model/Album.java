@@ -1,12 +1,8 @@
 package photos.model; 
 
-import java.util.List;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Album implements Serializable {
     
@@ -19,12 +15,12 @@ public class Album implements Serializable {
         if(name==null || name.isBlank()) {
             throw new IllegalArgumentException("Album name cannot be blank");
         }
-        name = this.name;
+        this.album_name = name;
         album_photos = new ArrayList<Photo>(); 
     }
     
     public String getName(){
-        return name;
+        return album_name;
     }
 
     public void setName(String name){

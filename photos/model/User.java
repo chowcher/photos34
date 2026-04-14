@@ -1,7 +1,7 @@
 package photos.model; 
 
-import java.util.*; 
 import java.io.Serializable;
+import java.util.*;
 
 public class User implements Serializable{ 
     
@@ -102,13 +102,14 @@ public class User implements Serializable{
         return true;
     }
 
-    public List<String> getMultiTagTypes() {
+    public List<String> getMultiValueTagTypes() {
         return multiTagTypes;
     }
 
-    public List<String> getSingleTagTypes() {
+    public List<String> getSingleValueTagTypes() {
         return singleTagTypes;
     }
+
 
     public boolean addTagType(String typeName, boolean single) {
         if(typeName==null || typeName.isBlank()) {
@@ -128,11 +129,10 @@ public class User implements Serializable{
         }
 
         if (!single) {
-            multiTagTypes.add(normalized);
+            multiTagTypes.add(typeNormalized);
         }
-        multiTagTypes.add(typeNormalized);
         if (single) {
-            singleTagTypes.add(normalized);
+            singleTagTypes.add(typeNormalized);
         }
         return true;
     }
