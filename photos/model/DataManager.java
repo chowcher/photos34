@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -14,13 +13,13 @@ public class DataManager{
     
     private DataManager() {} //Don't isntantiate
 
-    private static void ensureDataDir() {
+    private static void ensureDataDirectory() {
         File dir = new File("data");
         if (!dir.exists()) { dir.mkdirs(); }
     }
     
     public static void saveUsers(UserManager manager) {
-        ensureDataDir();
+        ensureDataDirectory();
 
         try(ObjectOutputStream x = new ObjectOutputStream(
             new FileOutputStream(DATA_FILE))) {

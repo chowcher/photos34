@@ -9,8 +9,8 @@ public class User implements Serializable{
 
     private final String username; 
     private final List<Album> albums; 
-    private final List<String> multiTagTypes;
-    private final List<String> singleTagTypes;
+    private final List<String> tagTypes;
+    private final List<String> singleValueTagTypes;
 
     /**
      * initializes new user object 
@@ -20,8 +20,6 @@ public class User implements Serializable{
      * initializes new list for albums
      */
 
-
-
     public User(String username){
         if(username == null || username.isBlank()){
             throw new IllegalArgumentException("Username cannot be null or blank");
@@ -29,11 +27,12 @@ public class User implements Serializable{
        
        this.username = username.trim().toLowerCase(); 
        this.albums = new ArrayList<>();
-       this.multiTagTypes = new ArrayList<>();
-       this.singleTagTypes = new ArrayList<>();
+       this.tagTypes = new ArrayList<>();
+       this.singleValueTagTypes = new ArrayList<>();
 
-       singleTagTypes.add("location");
-       multiTagTypes.add("person");
+       tagTypes.add("location");
+       tagTypes.add("person");
+       singleValueTagTypes.add("location");
     }
 
     public String getUsername() {
@@ -66,14 +65,14 @@ public class User implements Serializable{
         return albums.remove(album);
     }
 
-    public boolean removeAlbum(String name) {
+    public boolean removeAlbumByName(String name) {
         if (name == null || name.isBlank()) {
             return false;
         }
         return albums.removeIf(a -> a.getName().equalsIgnoreCase(name));
     }
 
-    public Album getAlbum(String name) {
+    public Album getAlbumByName(String name) {
         if(name == null || name.isBlank()) {
             return null;
         }
@@ -103,7 +102,7 @@ public class User implements Serializable{
                 }
         }
 
-        Album album = getAlbum(albumName);
+        Album album = getAlbumByName(albumName);
         if (album==null) {
             return false;
         }
@@ -112,12 +111,12 @@ public class User implements Serializable{
         return true;
     }
 
-    public List<String> getMultiValueTagTypes() {
-        return multiTagTypes;
+    public List<String> getTagTypes() {
+        return tagTypes;
     }
 
     public List<String> getSingleValueTagTypes() {
-        return singleTagTypes;
+        return singleValueTagTypes;
     }
 
 
@@ -127,22 +126,15 @@ public class User implements Serializable{
         }
         String typeNormalized = typeName.trim().toLowerCase();
 
-        for (String type:singleTagTypes) {
-            if (type.equalsIgnoreCase(typeNormalized)) {
-                return false;
-            }
-        }
-        for (String type:multiTagTypes) {
+        for (String type:tagTypes) {
             if (type.equalsIgnoreCase(typeNormalized)) {
                 return false;
             }
         }
 
-        if (!single) {
-            multiTagTypes.add(typeNormalized);
-        }
+        tagTypes.add(typeNormalized);
         if (single) {
-            singleTagTypes.add(typeNormalized);
+            singleValueTagTypes.add(typeNormalized);
         }
         return true;
     }
@@ -153,16 +145,12 @@ public class User implements Serializable{
         }
 
 
-        boolean isRemoved = singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
-        singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
-        if (isRemoved) {return isRemoved;}
-
-        isRemoved = multiTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
-        singleTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
-        return isRemoved;
+        boolean removed = tagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+        singleValueTagTypes.removeIf(t -> t.equalsIgnoreCase(typeName));
+        return removed;
     }
 
-    public Set<Photo> getPhotos() {
+    public Set<Photo> getAllPhotos() {
         Set<Photo> photoList = new HashSet<>();
         for(Album album:albums) {
             photoList.addAll(album.getPhotos());

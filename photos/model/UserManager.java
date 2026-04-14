@@ -12,7 +12,10 @@ public class UserManager implements Serializable {
 
     public UserManager(){
         this.users=new ArrayList<>();
-        
+        initializeDefaults();
+    }
+
+    private void initializeDefaults() {
         if(!userExists("admin")) {
             users.add(new User("admin"));
         }
@@ -40,6 +43,16 @@ public class UserManager implements Serializable {
         }
     }
 
+    public static UserManager getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("UserManager not initialized.");}
+        return instance;
+    }
+
+    public static void setInstance(UserManager manager) {
+        instance = manager;
+    }
+
     public List<User> getUsers() {
         return Collections.unmodifiableList(users);
     }
@@ -56,10 +69,6 @@ public class UserManager implements Serializable {
         User newUser = new User(norm);
         users.add(newUser);
         return newUser;
-    }
-
-    public static void setInstance(UserManager manager) {
-        instance = manager;
     }
 
     public boolean removeUser(String username) { 

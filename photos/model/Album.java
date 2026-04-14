@@ -42,7 +42,7 @@ public class Album implements Serializable {
         return album_photos; 
     }
 
-    public int num_photos(){
+    public int getPhotoCount(){
         return album_photos.size(); 
     }
 
@@ -100,7 +100,7 @@ public Calendar getLatestDate(){
     return latestDate;
 }
 
-public String getDateRange() {
+public String getDateRangeString() {
     Calendar earliest = getEarliestDate();
     Calendar latest = getLatestDate();
     if(earliest==null) {return "No photos";}
@@ -135,7 +135,7 @@ public int hashCode() {
 
 @Override
 public String toString() {
-    return album_name + " (" + num_photos() + " photo" +
+    return album_name + " (" + getPhotoCount() + " photo" +
         (album_photos.size() == 1 ? "" : "s") + ")";
 }
 
