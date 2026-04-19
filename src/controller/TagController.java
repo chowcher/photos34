@@ -189,7 +189,7 @@ public class TagController {
     @FXML
     private void handleBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/album.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/album.fxml"));
             Parent root = loader.load();
 
             AlbumController controller = loader.getController();

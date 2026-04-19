@@ -50,7 +50,7 @@ public class Photo implements Serializable {
     
     
     
-    public void setCaption(){
+    public void setCaption(String caption){
         this.caption = (caption == null) ? "" : caption.trim(); 
     }
 

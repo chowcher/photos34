@@ -31,7 +31,7 @@ public class DataManager{
         UserManager manager;
         try (ObjectInputStream x = new ObjectInputStream (new FileInputStream(DATA_FILE))) {
             manager = (UserManager) x.readObject();
-        } catch (FileNotFoundException e) { manager=new UserManager();
+        } catch (FileNotFoundException e) {
             manager = new UserManager();
         } catch (IOException | ClassNotFoundException e) {
             manager= new UserManager();
