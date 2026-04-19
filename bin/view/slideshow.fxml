@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.SlideshowController"
+            prefWidth="720.0" prefHeight="600.0"
+            style="-fx-background-color: #1a1a1a;">
+
+    <!-- Top bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12.0"
+              style="-fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 0 0 1 0;">
+            <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
+            <Button text="&#8592; Back" onAction="#handleBack"
+                    style="-fx-font-size: 13px;"/>
+            <Label text="Slideshow"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Label fx:id="indexLabel"
+                   style="-fx-text-fill: #aaa; -fx-font-size: 13px;"/>
+        </HBox>
+    </top>
+
+    <!-- Center: photo -->
+    <center>
+        <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+            <ImageView fx:id="photoImageView"
+                       fitWidth="680.0" fitHeight="480.0"
+                       preserveRatio="true"
+                       smooth="true"/>
+        </VBox>
+    </center>
+
+    <!-- Bottom: nav controls + caption -->
+    <bottom>
+        <VBox style="-fx-background-color: #2a2a2a; -fx-border-color: #444; -fx-border-width: 1 0 0 0;">
+            <padding><Insets top="12" right="16" bottom="14" left="16"/></padding>
+
+            <Label fx:id="captionLabel"
+                   alignment="CENTER"
+                   maxWidth="Infinity"
+                   style="-fx-text-fill: #ddd; -fx-font-size: 14px; -fx-font-style: italic;"/>
+
+            <HBox spacing="20.0" alignment="CENTER">
+                <padding><Insets top="10"/></padding>
+                <Button fx:id="prevButton" text="&#8592; Previous"
+                        onAction="#handlePrev"
+                        style="-fx-font-size: 14px;"/>
+                <Button fx:id="nextButton" text="Next &#8594;"
+                        onAction="#handleNext"
+                        style="-fx-font-size: 14px;"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

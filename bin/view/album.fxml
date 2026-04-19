@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.AlbumController"
+            prefWidth="700.0" prefHeight="580.0">
+
+    <!-- Top bar -->
+    <top>
+        <VBox style="-fx-background-color: #f4f4f4; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;">
+            <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <Button text="&#8592; Back" onAction="#handleBack"
+                        style="-fx-font-size: 13px;"/>
+                <Label fx:id="albumNameLabel" text="Album"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <HBox HBox.hgrow="ALWAYS"/>
+                <Button text="Slideshow" onAction="#handleSlideshow"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="View album as slideshow"/></tooltip>
+                </Button>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: photo thumbnail list -->
+    <center>
+        <VBox spacing="6.0">
+            <padding><Insets top="12" right="16" bottom="8" left="16"/></padding>
+            <Label text="Double-click a photo to view it."
+                   style="-fx-text-fill: gray; -fx-font-size: 12px;"/>
+            <ListView fx:id="photoListView" VBox.vgrow="ALWAYS"
+                      prefHeight="420.0"
+                      onMouseClicked="#handlePhotoDoubleClick"/>
+        </VBox>
+    </center>
+
+    <!-- Bottom: photo action buttons -->
+    <bottom>
+        <VBox>
+            <Separator/>
+            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                <padding><Insets top="10" right="16" bottom="14" left="16"/></padding>
+
+                <!-- Photo management -->
+                <Button text="Add Photo"    onAction="#handleAddPhoto"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Add a photo from your computer"/></tooltip>
+                </Button>
+                <Button text="Remove Photo" onAction="#handleRemovePhoto"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Remove selected photo from album"/></tooltip>
+                </Button>
+                <Button text="Caption"      onAction="#handleCaption"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Set or change caption"/></tooltip>
+                </Button>
+                <Button text="Display"      onAction="#handleDisplayPhoto"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="View full photo details"/></tooltip>
+                </Button>
+
+                <Separator orientation="VERTICAL"/>
+
+                <!-- Tag management -->
+                <Button text="Add Tag"    onAction="#handleAddTag"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Add a tag to selected photo"/></tooltip>
+                </Button>
+                <Button text="Delete Tag" onAction="#handleDeleteTag"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Remove a tag from selected photo"/></tooltip>
+                </Button>
+
+                <Separator orientation="VERTICAL"/>
+
+                <!-- Copy / Move -->
+                <Button text="Copy" onAction="#handleCopyPhoto"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Copy photo to another album"/></tooltip>
+                </Button>
+                <Button text="Move" onAction="#handleMovePhoto"
+                        style="-fx-font-size: 13px;">
+                    <tooltip><Tooltip text="Move photo to another album"/></tooltip>
+                </Button>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
